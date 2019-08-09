@@ -1,23 +1,33 @@
 <template>
-  <ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Cras justo odio
-      <span class="badge badge-primary badge-pill">14</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Dapibus ac facilisis in
-      <span class="badge badge-primary badge-pill">2</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Morbi leo risus
-      <span class="badge badge-primary badge-pill">1</span>
-    </li>
-  </ul>
+<div class="">
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(fruta,index) in arrayOrdenado" :key="fruta.id" @click="aumentar(index)">
+            {{fruta.nombre}}
+            <span class="badge badge-primary badge-pill">{{fruta.cantidad}}</span>
+        </li>
+    </ul>
+    <br>
+  <div class="form-group">
+      <button class="btn btn-primary" @click="reiniciar()">Reiniciar</button>
+  </div>
+</div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
-  name: "Lista"
+  name: "Lista",
+
+  computed: {
+    ...mapState(["frutas"]),
+    arrayOrdenado:function(){
+        return this.frutas.sort((a , b) => b.cantidad - a.cantidad)
+    }
+  },
+
+  methods:{
+      ...mapMutations(['aumentar','reiniciar'])
+  }
 };
 </script>
 
